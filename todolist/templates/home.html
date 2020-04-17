@@ -1,0 +1,63 @@
+{%extends "base.html"%}
+
+{% block main_block%}
+    <form class="form-inline mt-2 mt-md-0 justify-content-end" method="POST" action="">
+      {% csrf_token %}
+        <input name="item_name" class="form-control mr-sm-2" type="text" placeholder="Name">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add</button>
+    </form><br>
+
+    <div class="table-responsive">
+    <table class="table table-striped">
+        {% if warning %}
+        <div class="alert alert-danger" role="alert">
+        {{warning}}
+        </div>
+        {% endif %}
+
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Finished</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in content%}
+    {% if item.finished %}
+    <tr>
+        <th scope="row">{{ forloop.counter}}</th>
+        <td class="text-dark" id="line-through">{{item.item_name}}</td>
+        <td class="text-secondary">Edit not Allowed</a></td>
+        <form method="POST" action="">
+            {% csrf_token %}
+        <td><a href="/finished/{{forloop.counter}}" class="text-info">Cancel</a></td>
+        </form>
+        <form>
+             {% csrf_token %}
+        <td ><a href="/delete/{{forloop.counter}}" class="text-danger">Delete</a></td>
+        </form>
+    </tr>
+    {% else %}
+    <tr>
+        <th scope="row">{{ forloop.counter}}</th>
+        <td class="text-dark">{{item.item_name}}</td>
+        <td ><a href="/edit/{{forloop.counter}}">Edit</a></td>
+        <form method="POST" action="">
+             {% csrf_token %}
+        <td><a href="/finished/{{forloop.counter}}" class="text-success">Finished</a></td>
+        </form>
+        <form>
+             {% csrf_token %}
+        <td ><a href="/delete/{{forloop.counter}}" class="text-danger">Delete</a></td>
+        </form>
+    </tr>
+    {% endif %}
+  {% endfor %}
+
+  </tbody>
+</table>
+    </div>
+{% endblock main_block%}

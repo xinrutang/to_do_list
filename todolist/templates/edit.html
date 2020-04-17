@@ -1,0 +1,24 @@
+{%extends "base.html"%}
+{% block title%}Edit{% endblock title%}
+{% block main_block%}
+    <br><br><br>
+
+
+<div class="table-responsive" style="text-align:center">
+    <form id="form-edit" method="POST" action="">
+    {% csrf_token %}
+    <h6 for="inputItem">Edit the Item</h6><br>
+        {% if warning %}
+        <div class="alert alert-danger" role="alert">
+    {{warning}}
+        </div>
+        {% endif %}
+    <input name="item_name_changed" type="text" id="inputItem" class="form-control" value="{{item_name}}">
+    <small id="helpBlock" class="form-text text-muted">
+    You could edit the Item name here.
+    </small><br>
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a href="/"><button type="button" class="btn btn-secondary">Cancel</button></a>
+</form>
+</div>
+{% endblock main_block%}
